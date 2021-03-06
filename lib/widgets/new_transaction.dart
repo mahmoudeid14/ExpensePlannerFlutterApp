@@ -5,6 +5,15 @@ class NewTransaction extends StatelessWidget {
   final amountController = TextEditingController();
   final Function addTransactionHandler;
   NewTransaction(this.addTransactionHandler);
+  void submitData() {
+    final enteredTitle = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+      return;
+    }
+    addTransactionHandler(enteredTitle, enteredAmount);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -19,25 +28,27 @@ class NewTransaction extends StatelessWidget {
                 labelText: 'Title',
               ),
               controller: titleController,
+              onSubmitted: (_) => submitData(),
               // onChanged: (val) {
               //   titleInput = val;
               // },
             ),
             TextField(
-              decoration: InputDecoration(
-                labelText: 'Amount',
-              ),
-              // onChanged: (val) => amountInput = val,
-              controller: amountController,
-            ),
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                ),
+                // onChanged: (val) => amountInput = val,
+                controller: amountController,
+                //keyboardType: TextInputType.number,
+                keyboardType: TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                //onSubmitted:(val) => submitData,
+                onSubmitted: (_) =>
+                    submitData() //(_) this means that i know that we can revice value but i don't care
+                ),
             FlatButton(
-              onPressed: () {
-                // print(titleController.text);
-                addTransactionHandler(
-                  titleController.text,
-                  double.parse(amountController.text),
-                );
-              },
+              onPressed: submitData,
               child: Text(
                 'Add Transaction',
                 style: TextStyle(
