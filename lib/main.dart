@@ -20,8 +20,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> 
-{
+class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransaction = [
     Transaction(
       id: 't1',
@@ -52,7 +51,11 @@ class _MyHomePageState extends State<MyHomePage>
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
-          return NewTransaction(_addNewTransaction);
+          return GestureDetector(
+            onTap: () {},
+            child: NewTransaction(_addNewTransaction),
+            behavior: HitTestBehavior.opaque,
+          );
         });
   }
 
